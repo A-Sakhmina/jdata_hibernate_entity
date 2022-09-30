@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/persons")
@@ -21,6 +22,17 @@ public class PersonController {
 
     @GetMapping("/by-city")
     List<Person> getPersonsByCity(@RequestParam String city) {
-        return personService.getRepository().getPersonsByCity(city);
+        return personService.getRepository().findByCityOfLiving(city);
     }
+
+    @GetMapping("/by-name-surname")
+    Optional<Person> findByNameAndSurname(String name, String surname) {
+        return personService.getRepository().findByPersonInfoNameAndPersonInfoSurname(name, surname);
+    }
+
+    @GetMapping("/by-age")
+    List<Person> findByAgeLessThanAndOrderByAgeAsc(int age) {
+        return personService.getRepository().findByPersonInfoAgeLessThanOrderByPersonInfoAgeAsc(age);
+    }
+
 }
